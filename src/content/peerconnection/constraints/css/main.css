@@ -105,7 +105,8 @@ video {
   }
 
   section#statistics div {
-    width: calc(50% - 14px);
+    /*width: calc(50% - 14px);*/
+    width: 45%;
   }
 
   video {
