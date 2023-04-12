@@ -292,7 +292,7 @@ setInterval(() => {
 // might be named toString?
 function dumpStats(results) {
   let statsString = '';
-  let ignoreTypes = ["local-candidate", "remote-candidate", "codec", "certificate","transport"];
+  let ignoreTypes = ["candidate-pair", "local-candidate", "remote-candidate", "codec", "certificate","transport"];
   results.forEach(res => {
     if(!ignoreTypes.includes(res.type)) {
       statsString += '<h3>Report type=';
