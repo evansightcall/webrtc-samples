@@ -43,7 +43,8 @@ section#statistics div {
   display: inline-block;
   font-family: 'Inconsolata', 'Courier New', monospace;
   vertical-align: top;
-  width: 308px;
+  /*width: 308px;*/
+  width: 45%;
 }
 
 section#statistics div#senderStats {
