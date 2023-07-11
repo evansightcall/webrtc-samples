@@ -46,6 +46,7 @@ let localStream;
 let bytesPrev;
 let timestampPrev;
 let ignoreReportTypes = {}
+let ignoreReportKinds = {audio:false,video:false};
 
 main();
 
@@ -302,7 +303,10 @@ function dumpStats(results) {
     }
   }
   results.forEach(res => {
-    if(!ignoreTypes.includes(res.type)) {
+
+    const ignoreKind = res.hasOwnProperty('kind') ? (ignoreReportKinds[res.kind]) : false;
+
+    if(!ignoreTypes.includes(res.type) && !ignoreKind) {
       statsString += '<h3>Report type=';
       statsString += res.type;
       statsString += '</h3>\n';
@@ -333,12 +337,22 @@ function displayRangeValue(e) {
 const checkboxElements = document.getElementsByClassName('chkReport');
 for (let el of checkboxElements) {
   el.addEventListener('change', (event) => {
-    console.log(event.currentTarget.id);
+    const id = event.currentTarget.id.replace('chk-','');
     if (event.currentTarget.checked) {
-      ignoreReportTypes[event.currentTarget.id] = false;
+      ignoreReportTypes[id] = false;
     } else {
-      ignoreReportTypes[event.currentTarget.id] = true;
+      ignoreReportTypes[id] = true;
     }
   })
 }
-
+const checkboxElementKinds = document.getElementsByClassName('chkKind');
+for (let el of checkboxElementKinds) {
+  el.addEventListener('change', (event) => {
+    const id = event.currentTarget.id.replace('chk-','');
+    if (event.currentTarget.checked) {
+      ignoreReportKinds[id] = false;
+    } else {
+      ignoreReportKinds[id] = true;
+    }
+  });
+}
