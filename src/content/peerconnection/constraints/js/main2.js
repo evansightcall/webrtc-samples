@@ -330,11 +330,14 @@ function displayRangeValue(e) {
 }
 
 
-document.querySelector('.chkReport').addEventListener('change', (event) => {
-  console.log(event.currentTarget.id);
-  if (event.currentTarget.checked) {
-    ignoreReportTypes[event.currentTarget.id] = false;
-  } else {
-    ignoreReportTypes[event.currentTarget.id] = true;
-  }
-})
+document.getElementsByClassName('chkReport').forEach((el) => {
+  el.addEventListener('change', (event) => {
+    console.log(event.currentTarget.id);
+    if (event.currentTarget.checked) {
+      ignoreReportTypes[event.currentTarget.id] = false;
+    } else {
+      ignoreReportTypes[event.currentTarget.id] = true;
+    }
+  })
+});
+
