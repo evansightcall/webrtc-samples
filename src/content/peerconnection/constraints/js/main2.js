@@ -45,6 +45,7 @@ let remotePeerConnection;
 let localStream;
 let bytesPrev;
 let timestampPrev;
+let ignoreReportTypes = {}
 
 main();
 
@@ -292,7 +293,14 @@ setInterval(() => {
 // might be named toString?
 function dumpStats(results) {
   let statsString = '';
-  let ignoreTypes = ["candidate-pair", "local-candidate", "remote-candidate", "codec", "certificate","transport"];
+  //let ignoreTypes = ["candidate-pair", "local-candidate", "remote-candidate", "codec", "certificate","transport"];
+  let ignoreTypes = [];
+
+  for (let key in ignoreReportTypes) {
+    if (ignoreReportTypes.hasOwnProperty(key) && ignoreReportTypes[key]) {
+       ignoreTypes.push(key);
+    }
+  }
   results.forEach(res => {
     if(!ignoreTypes.includes(res.type)) {
       statsString += '<h3>Report type=';
@@ -320,3 +328,13 @@ function displayRangeValue(e) {
   span.textContent = e.target.value;
   displayGetUserMediaConstraints();
 }
+
+
+document.querySelector('.chkReport').addEventListener('change', (event) => {
+  console.log(event.currentTarget.id);
+  if (event.currentTarget.checked) {
+    ignoreReportTypes[event.currentTarget.id] = false;
+  } else {
+    ignoreReportTypes[event.currentTarget.id] = true;
+  }
+})
