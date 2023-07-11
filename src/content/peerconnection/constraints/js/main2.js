@@ -330,7 +330,8 @@ function displayRangeValue(e) {
 }
 
 
-document.getElementsByClassName('chkReport').forEach((el) => {
+const checkboxElements = document.getElementsByClassName('chkReport');
+for (let el of checkboxElements) {
   el.addEventListener('change', (event) => {
     console.log(event.currentTarget.id);
     if (event.currentTarget.checked) {
@@ -339,5 +340,5 @@ document.getElementsByClassName('chkReport').forEach((el) => {
       ignoreReportTypes[event.currentTarget.id] = true;
     }
   })
-});
+}
 
