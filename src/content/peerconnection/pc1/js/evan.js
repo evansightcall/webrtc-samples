@@ -20,6 +20,7 @@ hangupButton.addEventListener('click', hangup);
 let startTime;
 const localVideo = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
+const remoteAudio = document.getElementById('remoteAudio');
 
 localVideo.addEventListener('loadedmetadata', function() {
   console.log(`Local video videoWidth: ${this.videoWidth}px,  videoHeight: ${this.videoHeight}px`);
@@ -41,6 +42,7 @@ remoteVideo.addEventListener('resize', () => {
 });
 
 let localStream;
+let localAudioStream;
 let pc1;
 let pc2;
 const offerOptions = {
@@ -60,10 +62,12 @@ async function start() {
   console.log('Requesting local stream');
   startButton.disabled = true;
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-    console.log('Received local stream');
+    const stream = await navigator.mediaDevices.getUserMedia({video: true});
+    const audioStream = await navigator.mediaDevices.getUserMedia({audio: true});
+    console.log('Received local streams');
     localVideo.srcObject = stream;
     localStream = stream;
+    localAudioStream = audioStream;
     callButton.disabled = false;
   } catch (e) {
     alert(`getUserMedia() error: ${e.name}`);
@@ -97,6 +101,8 @@ async function call() {
 
   localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
   console.log('Added local stream to pc1');
+  audioStream.getTracks().forEach(track => pc1.addTrack(track, audioStream));
+  console.log('Added audio stream to pc1');
 
   try {
     console.log('pc1 createOffer start');
@@ -153,10 +159,23 @@ function onSetSessionDescriptionError(error) {
   console.log(`Failed to set session description: ${error.toString()}`);
 }
 
+/*
 function gotRemoteStream(e) {
   if (remoteVideo.srcObject !== e.streams[0]) {
     remoteVideo.srcObject = e.streams[0];
     console.log('pc2 received remote stream');
+  }
+}
+*/
+
+function gotRemoteStream(e) {
+  if (remoteVideo.srcObject !== e.streams[0]) {
+    remoteVideo.srcObject = e.streams[0];
+    console.log('pc2 received remote video (?) stream');
+  }
+  if (remoteAudio.srcObject !== e.streams[1]) {
+    remoteAudio.srcObject = e.streams[1];
+    console.log('pc2 received remote audio stream');
   }
 }
 
