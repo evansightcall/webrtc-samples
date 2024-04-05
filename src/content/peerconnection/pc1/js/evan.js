@@ -101,7 +101,7 @@ async function call() {
 
   localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
   console.log('Added local stream to pc1');
-  audioStream.getTracks().forEach(track => pc1.addTrack(track, audioStream));
+  localAudioStream.getTracks().forEach(track => pc1.addTrack(track, localAudioStream));
   console.log('Added audio stream to pc1');
 
   try {
