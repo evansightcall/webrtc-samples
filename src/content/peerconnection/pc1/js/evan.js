@@ -169,12 +169,12 @@ function gotRemoteStream(e) {
 */
 
 function gotRemoteStream(e) {
-  if (remoteVideo.srcObject !== e.streams[0]) {
+  // In this implementation, video stream first, audio 2nd.
+  if (remoteVideo.srcObject === null) {
     remoteVideo.srcObject = e.streams[0];
     console.log('pc2 received remote video (?) stream');
-  }
-  if (remoteAudio.srcObject !== e.streams[1]) {
-    remoteAudio.srcObject = e.streams[1];
+  } else if (remoteAudio.srcObject === null) {
+    remoteAudio.srcObject = e.streams[0];
     console.log('pc2 received remote audio stream');
   }
 }
